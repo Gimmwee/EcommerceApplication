@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EMedicineBE.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.SqlClient;
 
 namespace EMedicineBE.Controllers
 {
@@ -13,6 +15,26 @@ namespace EMedicineBE.Controllers
         {
            _configuration = configuration;
 
+        }
+        [HttpPost]
+        [Route("registration")]
+        public Response register(Users users)
+        {
+            Response response = new Response();
+            DAL dal = new DAL();
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("EMedCS").ToString());
+            response = dal.register(users, connection); 
+            return response;
+        }
+        [HttpPost]
+        [Route("login")]
+        public Response login(Users users)
+        {
+            DAL dal = new DAL();
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("").ToString());
+            Response response = new Response();
+
+            return response;
         }
     }
 }

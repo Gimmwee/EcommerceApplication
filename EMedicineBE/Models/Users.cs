@@ -11,7 +11,7 @@
         public DateTime DOB { get; set; }
         public string Address { get; set; }
         public decimal Fund { get; set; }
-        public int Type { get; set; }
+        public string Type { get; set; }
         public int Status { get; set; }
         public DateTime CreatedOn { get; set; }
     }

@@ -6,6 +6,6 @@
         public int UserId { get; set; }
         public string OrderNumber { get; set; }
         public decimal OrderTotal { get; set; }
-        public int OrderStatus { get; set; }
+        public string OrderStatus { get; set; }
     }
 }

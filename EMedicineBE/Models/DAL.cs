@@ -198,6 +198,52 @@ namespace EMedicineBE.Models
 
             return response;
         }
+        public Response orderList(Users users, SqlConnection connection)
+        {
+            Response response = new Response();
+            List<Orders> listOrder = new List<Orders>();
+            SqlDataAdapter da = new SqlDataAdapter("sp_OrderList", connection);
+            da.SelectCommand.CommandType = CommandType.StoredProcedure;
 
+            da.SelectCommand.Parameters.AddWithValue("@Type", users.Type);
+            da.SelectCommand.Parameters.AddWithValue("@Id", users.Id);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Orders orders = new Orders();
+                    orders.Id = Convert.ToInt32(dt.Rows[i]["ID"]);
+                    orders.OrderNumber = Convert.ToString(dt.Rows[i]["OrderNumber"]);
+                    orders.OrderTotal = Convert.ToDecimal(dt.Rows[i]["OrderTotal"]);
+                    orders.OrderStatus = Convert.ToString(dt.Rows[i]["OrderStatus"]);
+                    listOrder.Add(orders);
+                }
+
+                if (listOrder.Count>0)
+                {
+                    response.StatusCode = 200;
+                    response.StatusMessage = "Order detail fetched.";
+                    response.listOrders = listOrder;
+                }
+                else
+                {
+                    response.StatusCode = 100;
+                    response.StatusMessage = "Order detail are not available.";
+                    response.listOrders = null;
+                }
+
+            }
+            else
+            {
+                response.StatusCode = 100;
+                response.StatusMessage = "Order detail are not available.";
+                response.listOrders = null;
+            }
+
+
+            return response;
+        }
     }
 }

@@ -21,8 +21,18 @@ namespace EMedicineBE.Controllers
         {
             Response response = new Response();
             DAL dal = new DAL();
-            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("").ToString());
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("EMedCS").ToString());
             response = dal.addUpdateMedicine(medicines, connection);
+            return response;
+        }
+        [HttpPost]
+        [Route("userList")]
+        public Response userList()
+        {
+            Response response = new Response();
+            DAL dal = new DAL();
+            SqlConnection connection = new SqlConnection(_configuration.GetConnectionString("EMedCS").ToString());
+            response = dal.userList(connection);
             return response;
         }
 

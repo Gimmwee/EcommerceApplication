@@ -245,5 +245,42 @@ namespace EMedicineBE.Models
 
             return response;
         }
+        public Response addUpdateMedicine(Medicines medicines, SqlConnection connection)
+        {
+            Response response = new Response();
+          
+            SqlCommand cmd = new SqlCommand("sp_AddUpdateMedicine", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Name", medicines.Name);
+            cmd.Parameters.AddWithValue("@Manufacturer", medicines.Manufacturer);
+            cmd.Parameters.AddWithValue("@UnitPrice", medicines.UnitPrice);
+            cmd.Parameters.AddWithValue("@Discount", medicines.Discount);
+            cmd.Parameters.AddWithValue("@Quantity", medicines.Quantity);
+            cmd.Parameters.AddWithValue("@ExpDate", medicines.ExpDate);
+            cmd.Parameters.AddWithValue("@ImageURL", medicines.ImageURL);
+            cmd.Parameters.AddWithValue("@Status", medicines.Status);
+
+
+
+            connection.Open();
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                response.StatusCode = 200;
+                response.StatusMessage = "Medicines inserted Successfully.";
+
+            }
+            else
+            {
+
+                response.StatusCode = 100;
+                response.StatusMessage = "Medicines did not save. Try again!";
+            }
+
+
+            return response;
+        }
     }
 }
